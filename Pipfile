@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "*"
+pytest-cov = "*"
+
+[packages]
+awscli = "*"
+pandas = "*"
+xlrd = "*"
+fastparquet = "*"
+cython = "*"
+pytest = "*"
+pytest-cov = "*"
+colorama = "*"
+csci-utils = {editable = true,git = "https://github.com/csci-e-29/2020fa-csci-utils-shakmarev"}
+
+[requires]
+python_version = "3.7"

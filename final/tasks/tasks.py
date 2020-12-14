@@ -64,9 +64,8 @@ class GGM(Task):
         return LocalTarget("../data/price_ %s.txt" % self.ticker)
 
 
-def FCF(ticker, years, rate):
+def FCF(ticker, years, rate, growth):
     pass
-
 
 def RI(ticker, years):
     pass

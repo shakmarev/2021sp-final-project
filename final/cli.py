@@ -1,7 +1,6 @@
 import argparse
 from luigi import build
-from final.tasks import *
-from final.compute import *
+from final.tasks.tasks import *
 
 
 parser = argparse.ArgumentParser(description="Process analysis.")

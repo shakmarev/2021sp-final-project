@@ -1,6 +1,5 @@
 from datetime import datetime
 from functools import reduce
-from csci_utils import io
 import pandas as pd
 from yfinance import Ticker
 from luigi import Task, Parameter, LocalTarget

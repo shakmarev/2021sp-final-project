@@ -1,8 +1,7 @@
-from flask import Flask, request
-from flask import render_template
+from flask import Flask, request, render_template
 from luigi import build
 
-from .tasks.tasks import *
+from final.tasks.tasks import *
 
 
 app = Flask(__name__)
@@ -20,9 +19,9 @@ def fundamental(ticker=None):
 @app.route('/fundamental/', methods=['POST'])
 def fundamental_post():
     ticker = request.form['ticker'].upper()
-    years = request.form['years']
-    rate = request.form['rate']
-    growth = request.form['growth']
+    years = int(request.form['years'])
+    rate = float(request.form['rate'])
+    growth = float(request.form['growth'])
     model = str(request.form['model'])
 
     switcher = {
@@ -66,4 +65,4 @@ def login():
     return render_template('login.html', error=error)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

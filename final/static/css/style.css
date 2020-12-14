@@ -1,0 +1,20 @@
+input[disabled] {
+    background-color: #888888;
+    color: #888888;
+    pointer-events:none;
+    opacity:0.5;
+}
+
+input[disabled] label {
+    background-color: #888888;
+    color: #888888;
+    opacity:0.5;
+}
+
+input[type=number]{
+    width: 70px;
+}
+
+input[type=text]{
+    width: 100px;
+}

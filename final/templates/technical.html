@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Technical{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="ticker">Ticker</label>
+    {% if ticker %}
+    <input name="ticker" id="ticker" value={{ ticker }} required>
+    {% else %}
+      <input name="ticker" id="ticker" required>
+    {% endif %}
+    <label for="years">Years</label>
+    <input type="number" name="years" id="years" required><br/>
+    <input type="submit" value="Analyze">
+  </form>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Fundamental{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="ticker">Ticker</label>
+    {% if ticker %}
+    <input type="text" name="ticker" id="ticker" value={{ ticker }} required>
+    {% else %}
+      <input type="text" name="ticker" id="ticker" required>
+    {% endif %}
+    <label for="years">Years</label>
+    <input type="number" name="years" id="years" required><br>
+    <label for="rate">Discount rate</label>
+    <input type="number" name="rate" id="rate" step="0.01" required>
+    <label for="growth">Gorwth rate</label>
+    <input type="number" name="growth" id="growth" step="0.01" required>
+    <p>
+    <input type="radio" name="model" value="GGM">Gordon growth</input><br/>
+    <input type="radio" name="model" value="FCF">Free cash flow</input><br/>
+    <input type="radio" name="model" value="RI" disabled>Residual income</input><br/>
+    <input type="radio" name="model" value="H" disabled>H-model</input><br/>
+    <input type="radio" name="model" value="TWO" disabled>Two-stage</input><br/>
+    <input type="radio" name="model" value="THREE" disabled>Three-stage</input><br/>
+    </p>
+    <input type="submit" value="Analyze">
+  </form>
+
+{% endblock %}
+

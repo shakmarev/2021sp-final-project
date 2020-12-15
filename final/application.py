@@ -26,13 +26,15 @@ def fundamental(ticker=None):
 @app.route('/fundamental/', methods=['POST'])
 def fundamental_post():
     ticker = request.form['ticker'].upper()
-    years = int(request.form['years'])
+    model = str(request.form['model'])
+    years = int(request.form['years']) if model != "DDM" else 0
     rate = float(request.form['rate'])
     growth = float(request.form['growth'])
     model = str(request.form['model'])
 
     #Custom switch-case implementation
     switcher = {
+        "DDM": build([DDM(ticker=ticker, rate=rate, growth=growth)], local_scheduler=True),
         "GGM": build([GGM(ticker=ticker, years=years, rate=rate, growth=growth)], local_scheduler=True),
         "FCF": FCF(ticker, years, rate, growth),
         "RI": RI(ticker, years),
@@ -44,21 +46,21 @@ def fundamental_post():
     switcher.get(model, lambda: "Invalid model")
 
     #Load data obtained by Luigi tasks.
-    path = os.path.abspath("../data/price_%s_%s_%s_%s.txt" % (ticker, years, rate, growth))
+    path = os.path.abspath("../data/value_%s_%s_%s_%s_%s.txt" % (ticker, model, years, rate, growth))
     f = open(path, "r")
     result = eval(f.read())
 
-    #Create data to visualize discounted dividends by year
-    lastYear = datetime.now().year
-    firstYear = lastYear - years+1
-    listOfYears = range(firstYear, lastYear+1)
+    #Create data to visualize discounted dividends
     observations = eval(result['observations'])
+    lastYear = datetime.now().year
+    firstYear = lastYear - years + 1 if model != "DDM" else len(observations) + 1
+    listOfYears = range(firstYear, lastYear+1)
     points = list(map(lambda y, o: {'label': y, 'y': o}, listOfYears, observations))
 
     #Pass variables to flask template
     content = {'model': model,
                'ticker': ticker,
-               'years': years,
+               'years': years if model != "DDM" else len(observations),
                'rate': rate,
                'growth': growth,
                'observations': observations,
@@ -81,4 +83,4 @@ def technical_post():
     return ticker
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

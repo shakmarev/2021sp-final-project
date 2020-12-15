@@ -4,7 +4,7 @@ import pandas as pd
 from yfinance import Ticker
 from luigi import Task, Parameter, LocalTarget
 
-
+#Obtain and group dividends by year and save it in csv.
 class GetDividends(Task):
     ticker = Parameter(default=None)
 
@@ -13,12 +13,15 @@ class GetDividends(Task):
 
         if(company == None):
             return
-
+        #Get dividends using yfinance package.
         dividends = company.dividends.to_frame().reset_index("Date")
+
+        #Since there may be more than one dividends payment within a year I need to group dividends by year.
         divByYear = (
             dividends.groupby(dividends["Date"].dt.year).sum().reset_index("Date")
         )
 
+        #Save results to csv.
         with self.output().open("w") as out_file:
             divByYear.to_csv(out_file, index=False, compression="gzip")
 
@@ -38,10 +41,12 @@ class GGM(Task):
     def run(self):
         divByYear = pd.read_csv(self.input().open("r"))
 
+        #Since analysis is made for N years I only need to get dividends for last N years.
         lastNDiv = divByYear.where(
             divByYear["Date"] > datetime.now().year - self.years
         ).dropna()["Dividends"]
 
+        #Discount each dividend
         listOfObservations = list(
             map(
                 lambda x, y: ((((1 + self.growth) / (1 + self.rate)) ** y) * x),
@@ -49,18 +54,20 @@ class GGM(Task):
                 range(1, self.years + 1),
             )
         )
+        #Sum all discounted dividends
         observed = reduce(lambda x, y: x + y, listOfObservations)
+        # Obtain value for terminal year
         terminal = listOfObservations[self.years - 1] / (self.rate - self.growth)
 
         with self.output().open("w") as out_file:
             out_file.write(
-                "List of Observations: {0}\nTerminal value: {1}\nTotal value: {2}".format(
+                "{\'observations\': \'%s\', \'terminal\': \'%s\', \'total\': \'%s\'}" % (
                     listOfObservations, terminal, observed + terminal
                 )
             )
 
     def output(self):
-        return LocalTarget("../data/price_ %s.txt" % self.ticker)
+        return LocalTarget("../data/price_%s_%s_%s_%s.txt" % (self.ticker, self.years, self.rate, self.growth))
 
 
 def FCF(ticker, years, rate, growth):

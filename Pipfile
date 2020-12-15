@@ -16,10 +16,7 @@ cython = "*"
 pytest = "*"
 pytest-cov = "*"
 colorama = "*"
-csci-utils = {editable = true, git = "https://github.com/csci-e-29/2020fa-csci-utils-shakmarev"}
 luigi = "*"
-dask = {extras = ["dataframe"], version = "*"}
-s3fs = "*"
 requests = "*"
 aiohttp = "*"
 matplotlib = "*"

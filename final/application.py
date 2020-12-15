@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request, render_template
 from luigi import build
 
@@ -8,8 +10,13 @@ app = Flask(__name__)
 
 @app.route('/')
 @app.route('/home/')
+@app.route('/index/')
 def index():
     return render_template('index.html')
+
+@app.route('/about/')
+def about():
+    return render_template('about.html')
 
 @app.route('/fundamental/')
 @app.route('/fundamental/<ticker>')
@@ -24,6 +31,7 @@ def fundamental_post():
     growth = float(request.form['growth'])
     model = str(request.form['model'])
 
+    #Custom switch-case implementation
     switcher = {
         "GGM": build([GGM(ticker=ticker, years=years, rate=rate, growth=growth)], local_scheduler=True),
         "FCF": FCF(ticker, years, rate, growth),
@@ -35,7 +43,31 @@ def fundamental_post():
 
     switcher.get(model, lambda: "Invalid model")
 
-    return render_template('fundamental_analysis.html', ticker=ticker)
+    #Load data obtained by Luigi tasks.
+    path = os.path.abspath("../data/price_%s_%s_%s_%s.txt" % (ticker, years, rate, growth))
+    f = open(path, "r")
+    result = eval(f.read())
+
+    #Create data to visualize discounted dividends by year
+    lastYear = datetime.now().year
+    firstYear = lastYear - years+1
+    listOfYears = range(firstYear, lastYear+1)
+    observations = eval(result['observations'])
+    points = list(map(lambda y, o: {'label': y, 'y': o}, listOfYears, observations))
+
+    #Pass variables to flask template
+    content = {'model': model,
+               'ticker': ticker,
+               'years': years,
+               'rate': rate,
+               'growth': growth,
+               'observations': observations,
+               'terminal': result['terminal'],
+               'total': result['total'],
+               'points': points
+		}
+
+    return render_template('fundamental_analysis.html', **content)
 
 @app.route('/technical/')
 @app.route('/technical/<ticker>')
@@ -48,21 +80,5 @@ def technical_post():
     ticker = text.upper()
     return ticker
 
-
-
-
-@app.route('/login', methods=['POST', 'GET'])
-def login():
-    error = None
-    if request.method == 'POST':
-        if valid_login(request.form['username'],
-                       request.form['password']):
-            return log_the_user_in(request.form['username'])
-        else:
-            error = 'Invalid username/password'
-    # the code below is executed if the request method
-    # was GET or the credentials were invalid
-    return render_template('login.html', error=error)
-
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

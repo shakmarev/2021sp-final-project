@@ -13,8 +13,10 @@ input[disabled] label {
 
 input[type=number]{
     width: 70px;
+    margin-bottom: 10px;
 }
 
 input[type=text]{
     width: 100px;
+    margin-bottom: 10px;
 }

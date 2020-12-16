@@ -29,7 +29,6 @@ def fundamental_post():
     years = int(request.form['years']) if model != "DDM" else 0
     rate = float(request.form['rate'])
     growth = float(request.form['growth'])
-    model = str(request.form['model'])
 
     #Custom switch-case implementation
     switcher = {

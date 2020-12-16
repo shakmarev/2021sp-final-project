@@ -5,12 +5,17 @@
 {% endblock %}
 
 {% block content %}
-<span>According to analysis based on {{ model }} model inner value of {{ ticker }} is {{ total }}.</span><br/>
-<span>Years of payment: {{ years }}</span><br/>
-<span>Discount rate: {{ rate }}</span><br/>
-<span>Growth rate: {{ growth }}</span><br/>
-<span>Terminal value is {{ terminal }}</span><br/>
-<span>Observations are:
+According to analysis based on {{ model }} model inner value of {{ ticker }} is approximately {{ total }}.
+<br>
+Years of payment: {{ years }}
+<br>
+Discount rate: {{ rate }}
+<br/>
+Growth rate: {{ growth }}
+<br/>
+Terminal value is {{ terminal }}
+<br/>
+Observations are:
 {% for o in observations %}
   <li>{{ o }}</li>
 {% endfor %}

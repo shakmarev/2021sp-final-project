@@ -4,6 +4,7 @@ from flask import Flask, request, render_template
 from luigi import build
 
 from final.tasks.tasks import *
+from final.rpy2.arima import  *
 
 
 app = Flask(__name__)
@@ -19,7 +20,6 @@ def about():
     return render_template('about.html')
 
 @app.route('/fundamental/')
-@app.route('/fundamental/<ticker>')
 def fundamental(ticker=None):
     return render_template('fundamental.html', name=ticker)
 
@@ -72,15 +72,14 @@ def fundamental_post():
     return render_template('fundamental_analysis.html', **content)
 
 @app.route('/technical/')
-@app.route('/technical/<ticker>')
 def technical(ticker=None):
     return render_template('technical.html', name=ticker)
 
 @app.route('/technical/', methods=['POST'])
 def technical_post():
-    text = request.form['ticker']
-    ticker = text.upper()
-    return ticker
+    ticker = request.form['ticker'].upper()
+    content = get(ticker)
+    return render_template('technical_analysis.html', **content)
 
 if __name__ == '__main__':
     app.run(debug=False)

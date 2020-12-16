@@ -7,13 +7,9 @@
 {% block content %}
   <form method="post">
     <label for="ticker">Ticker</label>
-    {% if ticker %}
-    <input name="ticker" id="ticker" value={{ ticker }} required>
-    {% else %}
-      <input name="ticker" id="ticker" required>
-    {% endif %}
-    <label for="years">Years</label>
-    <input type="number" name="years" id="years" required><br/>
+    <input name="ticker" id="ticker" required>
+    <br/>
+    <br/>
     <input type="submit" value="Analyze">
   </form>
 {% endblock %}

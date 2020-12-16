@@ -1,5 +1,5 @@
 
-This provides functionality for analyzing financial data and predicting intrinsic value of securities.
+This project provides functionality for analyzing financial data and predicting intrinsic value of securities.
 
 For this purpose I utilize next tools:
 yfinance as data provider.

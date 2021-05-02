@@ -46,7 +46,7 @@ def fundamental_post():
     switcher.get(model, lambda: "Invalid model")
 
     #Load data obtained by Luigi tasks.
-    path = os.path.abspath("../data/value_%s_%s_%s_%s_%s.txt" % (ticker, model, years, rate, growth))
+    path = os.path.abspath("../data/value_%s_%s_%s_%s_%s.csv" % (ticker, model, years, rate, growth))
     f = open(path, "r")
     result = eval(f.read())
 

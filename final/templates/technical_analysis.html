@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Technical{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+According to technical analysis inner value of {{ ticker }} is approximately {{ total }}.
+
+{% endblock %}

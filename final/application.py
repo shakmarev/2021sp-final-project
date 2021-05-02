@@ -78,7 +78,9 @@ def technical(ticker=None):
 @app.route('/technical/', methods=['POST'])
 def technical_post():
     ticker = request.form['ticker'].upper()
-    content = get(ticker)
+    content =  {'ticker': ticker,
+                'total': 100
+                }
     return render_template('technical_analysis.html', **content)
 
 if __name__ == '__main__':

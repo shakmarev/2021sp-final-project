@@ -65,7 +65,7 @@ class DDM(Task):
 
     def output(self):
         return LocalTarget(
-            "../data/value_%s_%s_%s_%s_%s.txt" % (self.ticker, 'DDM', 0, self.rate, self.growth))
+            "../data/value_%s_%s_%s_%s_%s.csv" % (self.ticker, 'DDM', 0, self.rate, self.growth))
 
 
 class GGM(Task):
@@ -107,7 +107,7 @@ class GGM(Task):
 
     def output(self):
         return LocalTarget(
-            "../data/value_%s_%s_%s_%s_%s.txt" % (self.ticker, 'GGM', self.years, self.rate, self.growth))
+            "../data/value_%s_%s_%s_%s_%s.csv" % (self.ticker, 'GGM', self.years, self.rate, self.growth))
 
 
 def FCF(ticker, years, rate, growth):

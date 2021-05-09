@@ -78,8 +78,14 @@ def technical(ticker=None):
 @app.route('/technical/', methods=['POST'])
 def technical_post():
     ticker = request.form['ticker'].upper()
+    build([ARIMA(ticker=ticker)], local_scheduler=True)
+
+    path = os.path.abspath("../data/prediction_%s.csv" % (ticker))
+    f = open(path, "r")
+    result = eval(f.read())
+
     content =  {'ticker': ticker,
-                'total': 100
+                'total': result["Price"]
                 }
     return render_template('technical_analysis.html', **content)
 

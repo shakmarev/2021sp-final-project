@@ -30,6 +30,27 @@ class GetDividends(Task):
         return LocalTarget("../data/dividents_ %s.csv" % self.ticker)
 
 
+
+# Obtain stock prices and save it in csv.
+class GetPrices(Task):
+    ticker = Parameter(default=None)
+
+    def run(self):
+        company = Ticker(self.ticker)
+
+        if (company == None):
+            return
+        # Get prices using yfinance package.
+        quotes = company.history(period="max")
+
+        # Save results to csv.
+        with self.output().open("w") as out_file:
+            quotes.to_csv(out_file, index=False, compression="gzip")
+
+    def output(self):
+        return LocalTarget("../data/prices_ %s.csv" % self.ticker)
+
+
 class DDM(Task):
     ticker = Parameter(default=None)
     years = Parameter(default=0)
@@ -128,3 +149,26 @@ def TWO(ticker, years, rate, stableYears, stableRate):
 
 def THREE(ticker, years, rate, transitionYears, transitionRate, stableRate):
     pass
+
+
+class ARIMA(Task):
+    ticker = Parameter(default=None)
+
+    def requires(self):
+        return GetPrices(self.ticker)
+
+    def run(self):
+        prices = pd.read_csv(self.input().open("r")).dropna()["Close"]
+
+        prediction = reduce(lambda x, y: x + y, prices)
+
+        with self.output().open("w") as out_file:
+            out_file.write(
+                "{\'Price\': \'%s\'}" % (
+                    prediction
+                )
+            )
+
+    def output(self):
+        return LocalTarget(
+            "../data/prediction_%s.csv" % (self.ticker))

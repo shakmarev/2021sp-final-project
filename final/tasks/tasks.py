@@ -3,6 +3,7 @@ from functools import reduce
 import pandas as pd
 from yfinance import Ticker
 from luigi import Task, Parameter, LocalTarget
+from final.rpy2.arima import predictPrices
 
 
 # Obtain and group dividends by year and save it in csv.
@@ -48,7 +49,7 @@ class GetPrices(Task):
             quotes.to_csv(out_file, index=False, compression="gzip")
 
     def output(self):
-        return LocalTarget("../data/prices_ %s.csv" % self.ticker)
+        return LocalTarget("../data/prices_%s.csv" % self.ticker)
 
 
 class DDM(Task):
@@ -158,15 +159,11 @@ class ARIMA(Task):
         return GetPrices(self.ticker)
 
     def run(self):
-        prices = pd.read_csv(self.input().open("r")).dropna()["Close"]
-
-        prediction = reduce(lambda x, y: x + y, prices)
+        predictions = predictPrices(self.input().path)
 
         with self.output().open("w") as out_file:
             out_file.write(
-                "{\'Price\': \'%s\'}" % (
-                    prediction
-                )
+                "%s" % predictions
             )
 
     def output(self):

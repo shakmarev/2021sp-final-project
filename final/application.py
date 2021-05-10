@@ -82,10 +82,10 @@ def technical_post():
 
     path = os.path.abspath("../data/prediction_%s.csv" % (ticker))
     f = open(path, "r")
-    result = eval(f.read())
+    result = f.read()
 
     content =  {'ticker': ticker,
-                'total': result["Price"]
+                'total': result
                 }
     return render_template('technical_analysis.html', **content)
 

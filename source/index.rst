@@ -24,16 +24,12 @@ Documentation
 =============
 Intro
 -----
-An intro page to the problem
-++++++++++++++++++++++++++++
 
 This project provides functionality for analyzing financial data and predicting intrinsic value of securities as well as
 predicting price using ARIMA method.
 
 Overview
 --------
-An overview of my solution
-++++++++++++++++++++++++++
 My project can be roughly divided into three parts: data collection and preparation, calculations and analysis, and presenting outcomes.
 I utilize Luigi workflow to download and parse data.
 
@@ -47,8 +43,6 @@ For some reason I was not able to run the application on Linux due to Flask-Luig
 
 Architecture
 ------------
-Diagram of the architecture
-+++++++++++++++++++++++++++
 1. User opens any address.
 2. Application.py routs user to the corresponding html page.
 3. If user posts some data which are requered for calculation, then router calls luigi tasks.
@@ -57,13 +51,13 @@ Diagram of the architecture
 6. Technical analysis task gets data from the same package and saves it to csv file. Then saved data processed further to R function which is called through rpy2 package.
 7. Resulting data published on html page.
 
+Diagram of the architecture
++++++++++++++++++++++++++++
 .. image:: images/architecture.png
    :align:   center
 
 Code
 ----
-Python code
-+++++++++++
 Here is how I use flask to render simple html template::
 
    @app.route('/technical/')
@@ -101,16 +95,26 @@ Example of R code::
 
 Autodoc
 -------
-Sphinx autodoc
+final.tasks.tasks module
+++++++++++++++++++++++++
 
-.. autoclass:: DDM
+.. automodule:: final.tasks.tasks
    :members:
-   :special-members:
+   :undoc-members:
+   :show-inheritance:
+
+
+final.application module
+++++++++++++++++++++++++
+
+.. automodule:: final.application
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 Conclusion
 ----------
-A conclusion of the main learnings
-++++++++++++++++++++++++++++++++++
 In my project I've tried to combine R functionality with Python functionality using rpy2 package.
 
 The system can be improved. Some ideas:

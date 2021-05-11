@@ -5,9 +5,8 @@ from yfinance import Ticker
 from luigi import Task, Parameter, LocalTarget
 from final.rpy2.arima import predictPrices
 
-
-# Obtain and group dividends by year and save it in csv.
 class GetDividends(Task):
+    """ Obtain and group dividends by year and save it in csv."""
     ticker = Parameter(default=None)
 
     def run(self):
@@ -32,8 +31,8 @@ class GetDividends(Task):
 
 
 
-# Obtain stock prices and save it in csv.
 class GetPrices(Task):
+    """ Obtain stock prices and save it in csv."""
     ticker = Parameter(default=None)
 
     def run(self):
@@ -53,6 +52,7 @@ class GetPrices(Task):
 
 
 class DDM(Task):
+    """Discount dividend model task."""
     ticker = Parameter(default=None)
     years = Parameter(default=0)
     rate = Parameter(default=0)
@@ -91,6 +91,7 @@ class DDM(Task):
 
 
 class GGM(Task):
+    """Gordon growth model task."""
     ticker = Parameter(default=None)
     years = Parameter(default=0)
     rate = Parameter(default=0)
@@ -133,26 +134,32 @@ class GGM(Task):
 
 
 def FCF(ticker, years, rate, growth):
+    """Free cash flow model task."""
     pass
 
 
 def RI(ticker, years):
+    """Residual income model task."""
     pass
 
 
 def H(ticker, years, rate, stableYears, stableRate):
+    """H-model task."""
     pass
 
 
 def TWO(ticker, years, rate, stableYears, stableRate):
+    """Two stage model task."""
     pass
 
 
 def THREE(ticker, years, rate, transitionYears, transitionRate, stableRate):
+    """Three stage model task."""
     pass
 
 
 class ARIMA(Task):
+    """ Predict stock price using ARIMA method called from R."""
     ticker = Parameter(default=None)
 
     def requires(self):

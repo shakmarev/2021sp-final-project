@@ -13,18 +13,22 @@ app = Flask(__name__)
 @app.route('/home/')
 @app.route('/index/')
 def index():
+    """ A simple index page """
     return render_template('index.html')
 
 @app.route('/about/')
 def about():
+    """ Information about the project """
     return render_template('about.html')
 
 @app.route('/fundamental/')
 def fundamental(ticker=None):
+    """ Show fundamental analysis page"""
     return render_template('fundamental.html', name=ticker)
 
 @app.route('/fundamental/', methods=['POST'])
 def fundamental_post():
+    """ Perform fundamental analysis"""
     ticker = request.form['ticker'].upper()
     model = str(request.form['model'])
     years = int(request.form['years']) if model != "DDM" else 0
@@ -73,10 +77,12 @@ def fundamental_post():
 
 @app.route('/technical/')
 def technical(ticker=None):
+    """Show technical analysis page"""
     return render_template('technical.html', name=ticker)
 
 @app.route('/technical/', methods=['POST'])
 def technical_post():
+    """Perform technical analysis"""
     ticker = request.form['ticker'].upper()
     build([ARIMA(ticker=ticker)], local_scheduler=True)
 

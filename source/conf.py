@@ -54,3 +54,9 @@ html_theme = 'alabaster'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+import mock
+
+MOCK_MODULES = ['awscli', 'pandas', 'xlrd', 'cython', 'pytest', 'pytest-cov', 'colorama', 'luigi', 'requests', 'aiohttp', 'yfinance', 'rpy2', 'flask', 'gitpython', 'canvasapi']
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = mock.Mock()

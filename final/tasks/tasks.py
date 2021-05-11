@@ -159,6 +159,7 @@ class ARIMA(Task):
         return GetPrices(self.ticker)
 
     def run(self):
+        # Call R function to predict stock price using ARIMA.
         predictions = predictPrices(self.input().path)
 
         with self.output().open("w") as out_file:

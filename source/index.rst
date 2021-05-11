@@ -53,7 +53,7 @@ Architecture
 
 Diagram of the architecture
 +++++++++++++++++++++++++++
-.. image:: images/architecture.png
+.. image:: /images/architecture.png
    :align:   center
 
 Code

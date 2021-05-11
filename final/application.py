@@ -78,10 +78,12 @@ def technical_post():
     ticker = request.form['ticker'].upper()
     build([ARIMA(ticker=ticker)], local_scheduler=True)
 
+    #Load data obtained by Luigi tasks.
     path = os.path.abspath("../data/prediction_%s.csv" % (ticker))
     f = open(path, "r")
     result = f.read()
 
+    #Pass variables to flask template.
     content =  {'ticker': ticker,
                 'total': result
                 }

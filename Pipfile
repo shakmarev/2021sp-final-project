@@ -21,6 +21,8 @@ aiohttp = "*"
 yfinance = "*"
 rpy2 = "*"
 flask = "*"
+gitpython = "*"
+canvasapi = "*"
 
 [requires]
 python_version = "3.7"

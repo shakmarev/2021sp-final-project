@@ -56,6 +56,6 @@ html_static_path = ['_static']
 
 import mock
 
-MOCK_MODULES = ['awscli', 'pandas', 'xlrd', 'cython', 'pytest', 'pytest-cov', 'colorama' 'luigi', 'requests', 'requests.exceptions', 'aiohttp', 'yfinance', 'rpy2', 'rpy2.robjects', 'rpy2.robjects.packages', 'gitpython', 'canvasapi']
+MOCK_MODULES = ['awscli', 'pandas', 'xlrd', 'cython', 'pytest', 'pytest-cov', 'colorama' 'luigi', 'requests', 'requests.exceptions', 'aiohttp', 'yfinance', 'rpy2', 'rpy2.robjects', 'rpy2.robjects.packages', 'flask', 'gitpython', 'canvasapi']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = mock.Mock()
